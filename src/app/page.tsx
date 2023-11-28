@@ -1,7 +1,9 @@
 "use client";
 
 import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { useMessages } from "@/lib/globalState";
+import { PaperPlaneIcon, ReloadIcon } from "@radix-ui/react-icons";
 import { useMutation } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
 import * as XLSX from "xlsx";
@@ -115,7 +117,7 @@ export function Messager() {
 
   return (
     <div className="flex flex-col items-center gap-4 justify-center">
-      <input type="file" onChange={handleFileChange} />
+      <Input type="file" onChange={handleFileChange} />
       <div className="flex flex-row items-center gap-2 justify-center">
         <Button variant="secondary" onClick={handleFileRead}>
           Read File
@@ -128,6 +130,11 @@ export function Messager() {
         Download New File
       </Button>
       <Button onClick={handleSendMessage} disabled={!canSendMessages}>
+        {isPending ? (
+          <ReloadIcon className="mr-2 h-4 w-4 animate-spin" />
+        ) : (
+          <PaperPlaneIcon className="mr-2 h-4 w-4" />
+        )}
         Send Message
       </Button>
     </div>
