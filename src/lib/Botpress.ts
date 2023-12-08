@@ -11,7 +11,7 @@ export function Botpress(props: { children?: React.ReactNode }) {
     document.body.appendChild(script);
 
     script.onload = () => {
-      (window as any)?.botpressWebChat?.init({
+      window?.botpressWebChat?.init({
         botId: "5c9bdf9f-269c-4ff3-955e-3ba68f97b4bd",
         hostUrl: "https://cdn.botpress.cloud/webchat/v1",
         messagingUrl: "https://messaging.botpress.cloud",

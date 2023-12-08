@@ -34,10 +34,7 @@ async function sendMessages(data: string[][]) {
     });
     while (true) {
       await new Promise((resolve) => setTimeout(resolve, 4000));
-      if (
-        useMessages.getState().getLastMessage()?.message ===
-        "Do you have any other questions?"
-      ) {
+      if (useMessages.getState().getLastMessage()?.message === "Bye") {
         break;
       }
     }
