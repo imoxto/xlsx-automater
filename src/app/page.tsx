@@ -8,7 +8,15 @@ import { useMutation } from "@tanstack/react-query";
 import { ChangeEvent, useState } from "react";
 import * as XLSX from "xlsx";
 
-async function sendMessages(data: string[][]) {
+async function sendMessages({
+  data,
+  questionIndex = 0,
+  answerIndex = 1,
+}: {
+  data: string[][];
+  questionIndex?: number;
+  answerIndex?: number;
+}) {
   if (!data) {
     throw new Error("No data");
   }
@@ -20,7 +28,8 @@ async function sendMessages(data: string[][]) {
   window.botpressWebChat.sendEvent({ type: "show" });
 
   for (let i = 0; i < data.length; i++) {
-    const [question, answer] = data[i];
+    const question = data[i][questionIndex];
+    const answer = data[i][answerIndex];
     if (!question) {
       continue;
     }
@@ -40,7 +49,7 @@ async function sendMessages(data: string[][]) {
     }
     const responseMessage = useMessages.getState().messages[1]?.message;
 
-    data[i][1] = responseMessage ? responseMessage : "No response";
+    data[i][answerIndex] = responseMessage ? responseMessage : "No response";
 
     await new Promise((resolve) => setTimeout(resolve, 5000));
   }
@@ -108,7 +117,11 @@ export function Messager() {
 
   const handleSendMessage = () => {
     if (canSendMessages) {
-      mutate(JSON.parse(JSON.stringify(data)));
+      mutate({
+        data: JSON.parse(JSON.stringify(data)),
+        questionIndex: 0,
+        answerIndex: 3,
+      });
     }
   };
 
