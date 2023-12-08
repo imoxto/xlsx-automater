@@ -12,10 +12,10 @@ export function Botpress(props: { children?: React.ReactNode }) {
 
     script.onload = () => {
       window?.botpressWebChat?.init({
-        botId: "5c9bdf9f-269c-4ff3-955e-3ba68f97b4bd",
+        botId: "2026a1b5-79e2-4b8f-91ac-8191598b53dd",
         hostUrl: "https://cdn.botpress.cloud/webchat/v1",
         messagingUrl: "https://messaging.botpress.cloud",
-        clientId: "5c9bdf9f-269c-4ff3-955e-3ba68f97b4bd",
+        clientId: "2026a1b5-79e2-4b8f-91ac-8191598b53dd",
       });
       window.botpressWebChat?.onEvent(
         (event: any) => {
