@@ -12,10 +12,14 @@ async function sendMessages({
   data,
   questionIndex = 0,
   answerIndex = 1,
+  startRow = 1,
+  timeBetweenMessagesInMs = 5000,
 }: {
   data: string[][];
   questionIndex?: number;
   answerIndex?: number;
+  startRow?: number;
+  timeBetweenMessagesInMs?: number;
 }) {
   if (!data) {
     throw new Error("No data");
@@ -27,7 +31,7 @@ async function sendMessages({
 
   window.botpressWebChat.sendEvent({ type: "show" });
 
-  for (let i = 0; i < data.length; i++) {
+  for (let i = startRow; i < data.length; i++) {
     const question = data[i][questionIndex];
     const answer = data[i][answerIndex];
     if (!question) {
@@ -42,7 +46,9 @@ async function sendMessages({
       text: question,
     });
     while (true) {
-      await new Promise((resolve) => setTimeout(resolve, 4000));
+      await new Promise((resolve) =>
+        setTimeout(resolve, timeBetweenMessagesInMs)
+      );
       if (useMessages.getState().getLastMessage()?.message === "Bye") {
         break;
       }
@@ -51,7 +57,9 @@ async function sendMessages({
 
     data[i][answerIndex] = responseMessage ? responseMessage : "No response";
 
-    await new Promise((resolve) => setTimeout(resolve, 5000));
+    await new Promise((resolve) =>
+      setTimeout(resolve, timeBetweenMessagesInMs)
+    );
   }
 
   useMessages.getState().resetMessages();
