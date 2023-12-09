@@ -13,13 +13,17 @@ async function sendMessages({
   questionIndex = 0,
   answerIndex = 1,
   startRow = 1,
-  timeBetweenMessagesInMs = 5000,
+  timeBetweenMessagesInMs = 10000,
+  noResponseMessage = "No response",
+  allRows = false,
 }: {
   data: string[][];
   questionIndex?: number;
   answerIndex?: number;
   startRow?: number;
   timeBetweenMessagesInMs?: number;
+  noResponseMessage?: string;
+  allRows?: boolean;
 }) {
   if (!data) {
     throw new Error("No data");
@@ -37,7 +41,7 @@ async function sendMessages({
     if (!question) {
       continue;
     }
-    if (answer) {
+    if (!allRows && !!answer && answer !== noResponseMessage) {
       continue;
     }
     useMessages.getState().resetMessages();
@@ -55,7 +59,9 @@ async function sendMessages({
     }
     const responseMessage = useMessages.getState().messages[1]?.message;
 
-    data[i][answerIndex] = responseMessage ? responseMessage : "No response";
+    data[i][answerIndex] = responseMessage
+      ? responseMessage
+      : noResponseMessage;
 
     await new Promise((resolve) =>
       setTimeout(resolve, timeBetweenMessagesInMs)
